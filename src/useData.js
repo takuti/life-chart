@@ -5,7 +5,7 @@ export const useData = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    json('../data/life.json', (data) => {
+    json('./data/life.json', (data) => {
       console.log(data);
     }).then(setData);
   }, []);

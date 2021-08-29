@@ -12,7 +12,7 @@
     var setData = ref[1];
 
     React$1.useEffect(function () {
-      d3.json('../data/life.json', function (data) {
+      d3.json('./data/life.json', function (data) {
         console.log(data);
       }).then(setData);
     }, []);
