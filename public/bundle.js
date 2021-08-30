@@ -68,6 +68,7 @@
     };
     var xAxisOffset = 60;
     var yAxisOffset = 50;
+    var yExtent = [-5, 5];
     var tickOffset = 16;
     var App = function () {
         var data = useData();
@@ -86,7 +87,7 @@
             .range([0, innerWidth])
             .nice();
         var yScale = d3.scaleLinear()
-            .domain(d3.extent(data, yValue))
+            .domain(yExtent)
             .range([innerHeight, 0])
             .nice();
         return (React__namespace.createElement("svg", { width: width, height: height },

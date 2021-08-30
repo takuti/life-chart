@@ -20,6 +20,8 @@ const margin = {
 const xAxisOffset = 60;
 const yAxisOffset = 50;
 
+const yExtent = [-5, 5]
+
 const tickOffset = 16;
 
 const App = () => {
@@ -46,7 +48,7 @@ const App = () => {
     .nice();
 
   const yScale = scaleLinear()
-    .domain(extent(data, yValue) as [number, number])
+    .domain(yExtent)
     .range([innerHeight, 0])
     .nice();
 
