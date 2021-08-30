@@ -1,9 +1,11 @@
+import * as React from 'react';
+
 export const AxisBottom = ({
   xScale,
   innerHeight,
   tickOffset = 3,
-}) =>
-  xScale.ticks().map((tickValue) => (
+}: any) =>
+  xScale.ticks().map((tickValue: number) => (
     <g
       className="tick"
       key={tickValue}

@@ -1,9 +1,11 @@
+import * as React from 'react';
+
 export const AxisLeft = ({
   yScale,
   innerWidth,
   tickOffset = 3,
-}) =>
-  yScale.ticks().map((tickValue) => (
+}: any) =>
+  yScale.ticks().map((tickValue: number) => (
     <g
       className="tick"
       transform={`translate(0,${yScale(tickValue)})`}

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { line, curveLinear } from 'd3';
 
 export const Marks = ({
@@ -8,15 +9,15 @@ export const Marks = ({
   yValue,
   tooltipValue,
   circleRadius,
-}) => (
+}: any) => (
   <g className="marks">
     <path
       d={line()
         .x((d) => xScale(xValue(d)))
         .y((d) => yScale(yValue(d)))
-        .curve(curveLinear)(data)}
+        .curve(curveLinear)(data) as string}
     />
-    {data.map((d) => (
+    {data.map((d: any) => (
       <a href={d.link}>
         <circle
           cx={xScale(xValue(d))}

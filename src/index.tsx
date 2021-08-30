@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {
   scaleLinear,
   extent,
@@ -32,21 +32,21 @@ const App = () => {
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.right - margin.left;
 
-  const xValue = (d) => d.x;
+  const xValue = (d: any): number => d.x;
   const xAxisLabel = 'Year';
 
-  const yValue = (d) => d.y;
+  const yValue = (d: any) => d.y;
   const yAxisLabel = 'Happiness';
 
-  const tooltipValue = (d) => d.text;
+  const tooltipValue = (d: any) => d.text;
 
   const xScale = scaleLinear()
-    .domain(extent(data, xValue))
+    .domain(extent(data, xValue) as [number, number])
     .range([0, innerWidth])
     .nice();
 
   const yScale = scaleLinear()
-    .domain(extent(data, yValue))
+    .domain(extent(data, yValue) as [number, number])
     .range([innerHeight, 0])
     .nice();
 
