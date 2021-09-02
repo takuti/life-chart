@@ -46,16 +46,27 @@
             React__namespace.createElement("text", { key: tickValue, style: { textAnchor: 'end' }, x: -tickOffset, y: (tickValue), dy: ".32em" }, tickValue))); });
     };
 
+    var handleMouseEnter = function (id, x, y, text) {
+        return d3.select("svg")
+            .append("text")
+            .attr("id", id)
+            .attr("class", "tooltip")
+            .attr("x", x)
+            .attr("y", y)
+            .text(text);
+    };
+    var handleMouseLeave = function (id) {
+        return d3.select("#" + id).remove();
+    };
     var Marks = function (_a) {
-        var data = _a.data, xScale = _a.xScale, yScale = _a.yScale, xValue = _a.xValue, yValue = _a.yValue, tooltipValue = _a.tooltipValue, circleRadius = _a.circleRadius;
+        var data = _a.data, xScale = _a.xScale, yScale = _a.yScale, xValue = _a.xValue, yValue = _a.yValue, circleRadius = _a.circleRadius;
         return (React__namespace.createElement("g", { className: "marks" },
             React__namespace.createElement("path", { d: d3.line()
                     .x(function (d) { return xScale(xValue(d)); })
                     .y(function (d) { return yScale(yValue(d)); })
                     .curve(d3.curveLinear)(data) }),
             data.map(function (d) { return (React__namespace.createElement("a", { href: d.link },
-                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius },
-                    React__namespace.createElement("title", null, tooltipValue(d))))); })));
+                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return handleMouseEnter("t-" + d.x + "-" + d.y, xScale(xValue(d)) + 100, yScale(yValue(d)) + 50, d.text); }, onMouseOut: function () { return handleMouseLeave("t-" + d.x + "-" + d.y); } }))); })));
     };
 
     var width = 960;
@@ -81,7 +92,6 @@
         var xAxisLabel = 'Year';
         var yValue = function (d) { return d.y; };
         var yAxisLabel = 'Happiness';
-        var tooltipValue = function (d) { return d.text; };
         var xScale = d3.scaleLinear()
             .domain(d3.extent(data, xValue))
             .range([0, innerWidth])
@@ -96,7 +106,7 @@
                 React__namespace.createElement("text", { className: "axis-label", x: innerWidth / 2, y: innerHeight + xAxisOffset, textAnchor: "middle" }, xAxisLabel),
                 React__namespace.createElement(AxisLeft, { yScale: yScale, innerWidth: innerWidth, tickOffset: tickOffset }),
                 React__namespace.createElement("text", { className: "axis-label", textAnchor: "middle", transform: "translate(" + -yAxisOffset + "," + innerHeight / 2 + ") rotate(-90)" }, yAxisLabel),
-                React__namespace.createElement(Marks, { data: data, xScale: xScale, yScale: yScale, xValue: xValue, yValue: yValue, tooltipValue: tooltipValue, circleRadius: 8 }))));
+                React__namespace.createElement(Marks, { data: data, xScale: xScale, yScale: yScale, xValue: xValue, yValue: yValue, circleRadius: 16 }))));
     };
     var rootElement = document.getElementById('root');
     ReactDOM__namespace.render(React__namespace.createElement(App, null), rootElement);

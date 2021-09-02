@@ -40,8 +40,6 @@ const App = () => {
   const yValue = (d: any) => d.y;
   const yAxisLabel = 'Happiness';
 
-  const tooltipValue = (d: any) => d.text;
-
   const xScale = scaleLinear()
     .domain(extent(data, xValue) as [number, number])
     .range([0, innerWidth])
@@ -90,8 +88,7 @@ const App = () => {
           yScale={yScale}
           xValue={xValue}
           yValue={yValue}
-          tooltipValue={tooltipValue}
-          circleRadius={8}
+          circleRadius={16}
         />
       </g>
     </svg>
