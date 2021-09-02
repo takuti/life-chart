@@ -54,7 +54,7 @@
             .attr("y", y)
             .text(text1)
             .append("tspan")
-            .attr("dx", "-3.6em")
+            .attr("dx", (-0.5 * text1.length) + "em")
             .attr("dy", "1.6em")
             .text(text2);
     };
