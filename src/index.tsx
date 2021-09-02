@@ -2,7 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {
   scaleLinear,
+  scaleTime,
   extent,
+  timeFormat
 } from 'd3';
 import { useData } from './useData';
 import { AxisBottom } from './AxisBottom';
@@ -34,14 +36,14 @@ const App = () => {
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.right - margin.left;
 
-  const xValue = (d: any): number => d.x;
-  const xAxisLabel = 'Year';
+  const xValue = (d: any): Date => new Date(d.x);
+  const xAxisLabel = 'Time';
 
   const yValue = (d: any) => d.y;
   const yAxisLabel = 'Happiness';
 
-  const xScale = scaleLinear()
-    .domain(extent(data, xValue) as [number, number])
+  const xScale = scaleTime()
+    .domain(extent(data, xValue))
     .range([0, innerWidth])
     .nice();
 
@@ -49,6 +51,8 @@ const App = () => {
     .domain(yExtent)
     .range([innerHeight, 0])
     .nice();
+
+  const xAxisTickFormat = timeFormat('%Y');
 
   return (
     <svg width={width} height={height}>
@@ -58,6 +62,7 @@ const App = () => {
         <AxisBottom
           xScale={xScale}
           innerHeight={innerHeight}
+          tickFormat={xAxisTickFormat}
           tickOffset={tickOffset}
         />
         <text
