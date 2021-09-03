@@ -45,21 +45,31 @@
             React__namespace.createElement("text", { key: tickValue, style: { textAnchor: 'end' }, x: -tickOffset, y: (tickValue), dy: ".32em" }, tickValue))); });
     };
 
-    var handleMouseEnter = function (id, x, y, text1, text2) {
-        return d3.select("svg")
-            .append("text")
-            .attr("id", id)
+    var handleMouseEnter = function (cls, x, y, text1, text2) {
+        var g = d3.select("svg")
+            .append("g")
+            .attr("class", cls);
+        g.append("rect")
+            .attr("width", 0.7 * Math.max(text1.length, text2.length) + "em")
+            .attr("height", 50)
+            .attr("fill", "white")
+            .attr("opacity", 0.5)
+            .attr("x", x - 10)
+            .attr("y", y - 20)
+            .attr("rx", 15)
+            .attr("ry", 15);
+        g.append("text")
             .attr("class", "tooltip")
             .attr("x", x)
             .attr("y", y)
             .text(text1)
             .append("tspan")
-            .attr("dx", (-0.5 * text1.length) + "em")
+            .attr("dx", (-0.53 * text1.length) + "em")
             .attr("dy", "1.6em")
             .text(text2);
     };
-    var handleMouseLeave = function (id) {
-        return d3.select("#" + id).remove();
+    var handleMouseLeave = function (cls) {
+        return d3.select("." + cls).remove();
     };
     var Marks = function (_a) {
         var data = _a.data, xScale = _a.xScale, yScale = _a.yScale, xValue = _a.xValue, yValue = _a.yValue, circleRadius = _a.circleRadius;
@@ -69,7 +79,7 @@
                     .y(function (d) { return yScale(yValue(d)); })
                     .curve(d3.curveLinear)(data) }),
             data.map(function (d) { return (React__namespace.createElement("a", { href: d.link },
-                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return handleMouseEnter("t-" + d.x + "-" + d.y, xScale(xValue(d)) + 100, yScale(yValue(d)) + 50, d.x, d.text); }, onMouseOut: function () { return handleMouseLeave("t-" + d.x + "-" + d.y); } }))); })));
+                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return handleMouseEnter("t-" + d.x, xScale(xValue(d)) + 100, yScale(yValue(d)) + 60, d.x, d.text); }, onMouseOut: function () { return handleMouseLeave("t-" + d.x); } }))); })));
     };
 
     var width = 960;

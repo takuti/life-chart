@@ -1,22 +1,33 @@
 import * as React from 'react';
 import { line, curveLinear, select } from 'd3';
 
-const handleMouseEnter = (id: string, x: number, y: number, text1: string, text2: string) =>
-  select("svg")
-    .append("text")
-    .attr("id", id)
+const handleMouseEnter = (cls: string, x: number, y: number, text1: string, text2: string) => {
+  const g = select("svg")
+    .append("g")
+    .attr("class", cls);
+  g.append("rect")
+    .attr("width", 0.7 * Math.max(text1.length, text2.length) + "em")
+    .attr("height", 50)
+    .attr("fill", "white")
+    .attr("opacity", 0.5)
+    .attr("x", x - 10)
+    .attr("y", y - 20)
+    .attr("rx", 15)
+    .attr("ry", 15);
+  g.append("text")
     .attr("class", "tooltip")
     .attr("x", x)
     .attr("y", y)
     .text(text1)
     .append("tspan")
-    .attr("dx", (-0.5 * text1.length) + "em")
+    .attr("dx", (-0.53 * text1.length) + "em")
     .attr("dy", "1.6em")
     .text(text2);
+};
 
 
-const handleMouseLeave = (id) => 
-  select("#" + id).remove();
+const handleMouseLeave = (cls) => 
+  select("." + cls).remove();
 
 export const Marks = ({
   data,
@@ -39,8 +50,8 @@ export const Marks = ({
           cx={xScale(xValue(d))}
           cy={yScale(yValue(d))}
           r={circleRadius}
-          onMouseOver={() => handleMouseEnter("t-" + d.x + "-" + d.y, xScale(xValue(d)) + 100, yScale(yValue(d)) + 50, d.x as string, d.text)}
-          onMouseOut={() => handleMouseLeave("t-" + d.x + "-" + d.y)}
+          onMouseOver={() => handleMouseEnter("t-" + d.x, xScale(xValue(d)) + 100, yScale(yValue(d)) + 60, d.x as string, d.text)}
+          onMouseOut={() => handleMouseLeave("t-" + d.x)}
         >
         </circle>
       </a>
