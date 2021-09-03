@@ -54,8 +54,17 @@ const App = () => {
 
   const xAxisTickFormat = timeFormat('%Y');
 
+  const sheet = document.styleSheets[0];
+  const styleRules = [];
+  for (let i = 0; i < sheet.cssRules.length; i++)
+    styleRules.push(sheet.cssRules.item(i).cssText);
+  const styleText = styleRules.join(' ');
+
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
+      <style type="text/css">
+        {styleText}
+      </style>
       <g
         transform={`translate(${margin.left},${margin.top})`}
       >
@@ -100,5 +109,45 @@ const App = () => {
   );
 };
 
+const download = () => {
+  const data = (new XMLSerializer()).serializeToString(document.querySelector('svg'));
+  const svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+
+  const url = URL.createObjectURL(svg);
+
+  const img = new Image();
+  img.addEventListener('load', () => {  
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext('2d');
+    context.drawImage(img, 0, 0, width, height);
+
+    URL.revokeObjectURL(url);
+
+    const a = document.createElement('a');
+    a.download = "life-graph.png";
+    document.body.appendChild(a);
+    a.href =  canvas.toDataURL();;
+    a.click();
+    a.remove();
+  });
+  img.src = url;
+};
+
+const Download = () => 
+  <div style={{ textAlign: "center" }}>
+    <button onClick={download}>Download</button>
+  </div>;
+
 const rootElement = document.getElementById('root');
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(
+  <App />, 
+  rootElement
+);
+
+ReactDOM.render(
+  <Download />,
+  document.body.appendChild(document.createElement('div'))
+);

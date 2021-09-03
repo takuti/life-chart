@@ -114,7 +114,13 @@
             .range([innerHeight, 0])
             .nice();
         var xAxisTickFormat = d3.timeFormat('%Y');
-        return (React__namespace.createElement("svg", { width: width, height: height },
+        var sheet = document.styleSheets[0];
+        var styleRules = [];
+        for (var i = 0; i < sheet.cssRules.length; i++)
+            styleRules.push(sheet.cssRules.item(i).cssText);
+        var styleText = styleRules.join(' ');
+        return (React__namespace.createElement("svg", { width: width, height: height, xmlns: "http://www.w3.org/2000/svg" },
+            React__namespace.createElement("style", { type: "text/css" }, styleText),
             React__namespace.createElement("g", { transform: "translate(" + margin.left + "," + margin.top + ")" },
                 React__namespace.createElement(AxisBottom, { xScale: xScale, innerHeight: innerHeight, tickFormat: xAxisTickFormat, tickOffset: tickOffset }),
                 React__namespace.createElement("text", { className: "axis-label", x: innerWidth / 2, y: innerHeight + xAxisOffset, textAnchor: "middle" }, xAxisLabel),
@@ -122,7 +128,33 @@
                 React__namespace.createElement("text", { className: "axis-label", textAnchor: "middle", transform: "translate(" + -yAxisOffset + "," + innerHeight / 2 + ") rotate(-90)" }, yAxisLabel),
                 React__namespace.createElement(Marks, { data: data, xScale: xScale, yScale: yScale, xValue: xValue, yValue: yValue, circleRadius: 16 }))));
     };
+    var download = function () {
+        var data = (new XMLSerializer()).serializeToString(document.querySelector('svg'));
+        var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+        var url = URL.createObjectURL(svg);
+        var img = new Image();
+        img.addEventListener('load', function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            var context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0, width, height);
+            URL.revokeObjectURL(url);
+            var a = document.createElement('a');
+            a.download = "life-graph.png";
+            document.body.appendChild(a);
+            a.href = canvas.toDataURL();
+            a.click();
+            a.remove();
+        });
+        img.src = url;
+    };
+    var Download = function () {
+        return React__namespace.createElement("div", { style: { textAlign: "center" } },
+            React__namespace.createElement("button", { onClick: download }, "Download"));
+    };
     var rootElement = document.getElementById('root');
     ReactDOM__namespace.render(React__namespace.createElement(App, null), rootElement);
+    ReactDOM__namespace.render(React__namespace.createElement(Download, null), document.body.appendChild(document.createElement('div')));
 
 }(React, ReactDOM, d3));
