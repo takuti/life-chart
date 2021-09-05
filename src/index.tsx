@@ -130,7 +130,7 @@ const download = () => {
     const a = document.createElement('a');
     a.download = "life-graph.png";
     document.body.appendChild(a);
-    a.href =  canvas.toDataURL();;
+    a.href =  canvas.toDataURL();
     a.click();
     a.remove();
   });
