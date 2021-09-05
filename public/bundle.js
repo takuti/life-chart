@@ -45,41 +45,23 @@
             React__namespace.createElement("text", { key: tickValue, style: { textAnchor: 'end' }, x: -tickOffset, y: (tickValue), dy: ".32em" }, tickValue))); });
     };
 
-    var handleMouseEnter = function (cls, x, y, text1, text2) {
-        var g = d3.select("svg")
-            .append("g")
-            .attr("class", cls);
-        g.append("rect")
-            .attr("width", 0.7 * Math.max(text1.length, text2.length) + "em")
-            .attr("height", 50)
-            .attr("fill", "white")
-            .attr("opacity", 0.5)
-            .attr("x", x - 10)
-            .attr("y", y - 20)
-            .attr("rx", 15)
-            .attr("ry", 15);
-        g.append("text")
-            .attr("class", "tooltip")
-            .attr("x", x)
-            .attr("y", y)
-            .text(text1)
-            .append("tspan")
-            .attr("dx", (-0.53 * text1.length) + "em")
-            .attr("dy", "1.6em")
-            .text(text2);
-    };
-    var handleMouseLeave = function (cls) {
-        return d3.select("." + cls).remove();
-    };
     var Marks = function (_a) {
-        var data = _a.data, xScale = _a.xScale, yScale = _a.yScale, xValue = _a.xValue, yValue = _a.yValue, circleRadius = _a.circleRadius;
+        var width = _a.width, data = _a.data, xScale = _a.xScale, yScale = _a.yScale, xValue = _a.xValue, yValue = _a.yValue, circleRadius = _a.circleRadius;
         return (React__namespace.createElement("g", { className: "marks" },
             React__namespace.createElement("path", { d: d3.line()
                     .x(function (d) { return xScale(xValue(d)); })
                     .y(function (d) { return yScale(yValue(d)); })
                     .curve(d3.curveLinear)(data) }),
             data.map(function (d) { return (React__namespace.createElement("a", { href: d.link },
-                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return handleMouseEnter("t-" + d.x, xScale(xValue(d)) + 100, yScale(yValue(d)) + 60, d.x, d.text); }, onMouseOut: function () { return handleMouseLeave("t-" + d.x); } }))); })));
+                React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return d3.select(".t-" + d.x).classed("hidden", false); }, onMouseOut: function () { return d3.select(".t-" + d.x).classed("hidden", true); } }),
+                React__namespace.createElement("g", { className: "t-" + d.x + " hidden" },
+                    React__namespace.createElement("defs", null,
+                        React__namespace.createElement("filter", { id: "svgBlur", x: "-20%", y: "-20%", width: "150%", height: "150%" },
+                            React__namespace.createElement("feGaussianBlur", { "in": "SourceGraphic", stdDeviation: "20" }))),
+                    React__namespace.createElement("rect", { width: width, height: "3.5em", fill: "white", opacity: "0.5", y: yScale(yValue(d)) + 20, filter: "url(#svgBlur)" }),
+                    React__namespace.createElement("text", { className: "tooltip", x: xScale(xValue(d)) + 10, y: yScale(yValue(d)) + 40 },
+                        React__namespace.createElement("tspan", { fontWeight: "bold" }, String(d.x)),
+                        React__namespace.createElement("tspan", { dx: (-0.58 * String(d.x).length) + "em", dy: "1.6em" }, d.text))))); })));
     };
 
     var width = 1000;
@@ -126,7 +108,7 @@
                 React__namespace.createElement("text", { className: "axis-label", x: innerWidth / 2, y: innerHeight + xAxisOffset, textAnchor: "middle" }, xAxisLabel),
                 React__namespace.createElement(AxisLeft, { yScale: yScale, innerWidth: innerWidth, tickOffset: tickOffset }),
                 React__namespace.createElement("text", { className: "axis-label", textAnchor: "middle", transform: "translate(" + -yAxisOffset + "," + innerHeight / 2 + ") rotate(-90)" }, yAxisLabel),
-                React__namespace.createElement(Marks, { data: data, xScale: xScale, yScale: yScale, xValue: xValue, yValue: yValue, circleRadius: 16 }))));
+                React__namespace.createElement(Marks, { width: width, data: data, xScale: xScale, yScale: yScale, xValue: xValue, yValue: yValue, circleRadius: 16 }))));
     };
     var download = function () {
         var data = (new XMLSerializer()).serializeToString(document.querySelector('svg'));

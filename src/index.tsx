@@ -97,6 +97,7 @@ const App = () => {
           {yAxisLabel}
         </text>
         <Marks
+          width={width}
           data={data}
           xScale={xScale}
           yScale={yScale}
