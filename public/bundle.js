@@ -82,7 +82,7 @@
                 React__namespace.createElement("circle", { cx: xScale(xValue(d)), cy: yScale(yValue(d)), r: circleRadius, onMouseOver: function () { return handleMouseEnter("t-" + d.x, xScale(xValue(d)) + 100, yScale(yValue(d)) + 60, d.x, d.text); }, onMouseOut: function () { return handleMouseLeave("t-" + d.x); } }))); })));
     };
 
-    var width = 960;
+    var width = 1000;
     var height = 500;
     var margin = {
         top: 20,

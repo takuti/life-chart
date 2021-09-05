@@ -11,7 +11,7 @@ import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
 
-const width = 960;
+const width = 1000;
 const height = 500;
 const margin = {
   top: 20,
